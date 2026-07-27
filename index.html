@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소나기커뮤니케이션</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Pretendard', '-apple-system', 'Noto Sans KR', 'sans-serif'],
+        },
+        colors: {
+          sonagi: {
+            black: '#111',
+            purple: '#48237E',
+            'purple-dark': '#3a1c64',
+            caption: '#444',
+            muted: '#767676',
+            line: '#111',
+          },
+        },
+        spacing: {
+          page: '200px',
+          gnb: '64px',
+        },
+        borderRadius: {
+          box: '8px',
+        },
+      },
+    },
+  };
+</script>
+<style type="text/tailwindcss">
+  @layer components {
+    .sec-eyebrow {
+      @apply text-[12px] font-semibold tracking-[0.2em] uppercase text-sonagi-muted mb-3;
+    }
+    .sec-head {
+      @apply border-t border-sonagi-black/10 pt-16;
+    }
+    .sec-title {
+      @apply text-[clamp(28px,2.8vw,40px)] font-extrabold tracking-tight mb-5;
+    }
+    .sec-desc {
+      @apply text-[17px] text-sonagi-caption leading-[1.85] mb-12 max-w-[680px];
+    }
+    .body-copy {
+      @apply text-[16px] text-sonagi-caption leading-[1.85];
+    }
+    .keyword-line {
+      @apply text-[15px] text-sonagi-black/70 leading-loose;
+    }
+    .keyword-line em {
+      @apply not-italic text-sonagi-purple font-semibold;
+    }
+    .btn-primary {
+      @apply inline-flex items-center gap-2 px-6 py-3 text-[15px] font-semibold tracking-tight bg-sonagi-black text-white transition-colors duration-200 hover:bg-sonagi-purple;
+    }
+    .btn-outline {
+      @apply inline-flex items-center gap-2 px-0 py-3 text-[15px] font-semibold tracking-tight text-sonagi-black/65 bg-transparent border-0 transition-colors duration-200 hover:text-sonagi-purple;
+    }
+    .btn-outline::after {
+      content: '→';
+      @apply text-[14px] opacity-50 transition-opacity;
+    }
+    .btn-outline:hover::after {
+      @apply opacity-100;
+    }
+    .field {
+      @apply w-full border-0 border-b border-sonagi-black/20 bg-transparent px-0 py-4 text-[18px] outline-none transition-colors focus:border-sonagi-purple placeholder:text-sonagi-muted/50;
+    }
+    .field-select {
+      @apply w-full border-0 border-b border-sonagi-black/20 bg-transparent px-0 py-4 text-[18px] outline-none transition-colors focus:border-sonagi-purple appearance-none cursor-pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+    }
+    .form-label {
+      @apply block text-[16px] font-bold text-sonagi-black mb-2;
+    }
+    .btn-pill {
+      @apply inline-flex items-center justify-center min-w-[140px] px-8 py-3.5 text-[16px] font-semibold tracking-tight bg-sonagi-black text-white transition-colors duration-200 hover:bg-sonagi-purple;
+    }
+    .contact-tab {
+      @apply pb-2.5 text-[17px] font-semibold border-b-2 border-transparent text-sonagi-muted transition-colors;
+    }
+    .contact-tab.is-active {
+      @apply border-sonagi-purple text-sonagi-purple;
+    }
+    .prod-card {
+      @apply py-2;
+    }
+    .prod-card h3 {
+      @apply text-[20px] font-bold mb-4 pb-4 border-b border-sonagi-black/10;
+    }
+    .edu-visual {
+      @apply relative w-full overflow-hidden mb-12 media-box;
+      aspect-ratio: 16 / 9;
+      max-height: 320px;
+    }
+    .edu-visual__media {
+      @apply absolute inset-0 w-full h-full object-cover object-center;
+      transform: scale(1);
+    }
+    .edu-visual__media.is-poster {
+      animation: heroKenBurns 18s ease-in-out infinite alternate;
+    }
+    .edu-card {
+      @apply py-2;
+    }
+    .edu-card h3 {
+      @apply text-[20px] font-bold mb-4 pb-4 border-b border-sonagi-black/10;
+    }
+    .process-step-num {
+      @apply text-[13px] font-bold tracking-[0.14em] text-sonagi-purple mb-3;
+    }
+    .about-pillar h3 {
+      @apply text-[19px] font-bold mb-2;
+    }
+    .about-pillar p {
+      @apply text-[16px] text-sonagi-caption leading-[1.8];
+    }
+    .process-step h3 {
+      @apply text-[19px] font-bold mb-2;
+    }
+    .process-step p {
+      @apply text-[15px] text-sonagi-caption leading-[1.8] text-pretty;
+    }
+    .process-step {
+      @apply relative pt-1 lg:pr-8;
+    }
+    .process-step:not(:last-child)::after {
+      content: '';
+      @apply hidden lg:block absolute top-1 right-0 w-px h-full bg-sonagi-black/10;
+    }
+    .portfolio-card .pf-cat {
+      @apply text-[13px] font-semibold text-sonagi-purple uppercase tracking-wider mb-2;
+    }
+    .portfolio-card h3 {
+      @apply text-[20px] font-bold mb-2;
+    }
+    .portfolio-card:hover h3 {
+      @apply text-sonagi-black;
+    }
+    .portfolio-card p {
+      @apply text-[16px] text-sonagi-caption leading-[1.85];
+    }
+    .hero-cinema {
+      @apply relative overflow-hidden w-full min-h-[82vh] max-h-[860px] flex items-center justify-center text-center mb-[90px];
+    }
+    .hero-cinema__video {
+      @apply w-full h-full object-cover;
+      transform: scale(1);
+    }
+    .hero-cinema__video.is-poster {
+      animation: heroKenBurns 18s ease-in-out infinite alternate;
+    }
+    .hero-cinema__eyebrow {
+      @apply text-[clamp(16px,2vw,22px)] font-normal text-white/85 tracking-[0.04em] mb-5 md:mb-6;
+    }
+    .hero-cinema__brand {
+      @apply text-[clamp(44px,9vw,112px)] font-extrabold uppercase text-white leading-[0.95] tracking-[0.06em];
+    }
+    .manifesto-video {
+      @apply relative w-full overflow-hidden mb-12;
+      height: min(42vh, 460px);
+    }
+    .manifesto-video__media {
+      @apply absolute inset-0 w-full h-full object-cover;
+      transform: scale(1);
+    }
+    .manifesto-video__media.is-poster {
+      animation: heroKenBurns 18s ease-in-out infinite alternate;
+    }
+    .manifesto-block {
+      @apply border-b border-sonagi-black/10;
+    }
+    .manifesto-lead {
+      @apply text-[clamp(22px,2.4vw,34px)] font-extrabold leading-[1.45] tracking-tight max-w-[760px];
+    }
+    .manifesto-lead em {
+      @apply not-italic text-sonagi-purple;
+    }
+    .partner-tile {
+      @apply flex items-center justify-center min-h-[88px] md:min-h-[96px] px-2 py-3 bg-transparent;
+    }
+    .partner-tile--logo {
+      @apply px-2 py-3;
+    }
+    .partner-logo {
+      @apply block h-[56px] md:h-[64px] w-auto max-w-[96%] object-contain object-center;
+    }
+    .partner-logo--wide {
+      @apply max-w-[98%];
+    }
+    .partner-logo--lg {
+      @apply h-[64px] md:h-[76px] max-w-[98%];
+    }
+    .partner-logo--bcdf {
+      @apply block w-full max-w-full h-auto max-h-[48px] md:max-h-[54px] object-contain object-center;
+    }
+    .partner-logo--kocca,
+    .partner-logo--chungnam {
+      @apply h-[88px] md:h-[100px] max-w-full;
+    }
+    .about-pillar {
+      @apply py-5 pl-5 border-l-2 border-sonagi-purple/30;
+    }
+    .about-layout {
+      @apply grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-x-8 lg:gap-y-5;
+    }
+    .about-top-eyebrow {
+      @apply pr-4 lg:col-start-1 lg:row-start-1;
+    }
+    .about-intro-copy {
+      @apply pr-4 lg:col-start-1 lg:row-start-2;
+    }
+    .about-intro-photo {
+      @apply min-h-0 overflow-hidden bg-black/[0.03] max-lg:h-[296px] max-lg:sm:h-[328px] lg:col-start-1 lg:row-start-3 lg:self-start;
+    }
+    .about-intro-photo img {
+      @apply block h-full w-full max-h-full object-cover object-center;
+    }
+    .about-side-photo {
+      @apply min-h-0 overflow-hidden bg-black/[0.03] max-lg:h-[148px] max-lg:sm:h-[164px] lg:col-start-2 lg:row-start-2 lg:self-start;
+    }
+    .about-side-photo img {
+      @apply block h-full w-full max-h-full object-cover object-center;
+    }
+    .about-pillars {
+      @apply flex flex-col gap-1 pl-2 lg:col-start-2 lg:row-start-3 lg:self-start;
+    }
+    .media-box {
+      @apply overflow-hidden bg-black/[0.03] rounded-box;
+    }
+    .portfolio-card img {
+      @apply transition-transform duration-500 ease-out;
+    }
+    .portfolio-card:hover img {
+      transform: scale(1.03);
+    }
+    .side-link {
+      @apply transition-all duration-300 ease-out;
+    }
+    .side-contact {
+      @apply overflow-hidden opacity-0 translate-y-3 pointer-events-none transition-all duration-500 ease-out;
+      max-height: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .side-contact.is-visible {
+      @apply mt-auto pt-10 opacity-100 translate-y-0 pointer-events-auto;
+      max-height: 280px;
+    }
+    .side-contact-title {
+      @apply text-[clamp(28px,2.2vw,36px)] font-extrabold tracking-tight leading-none mb-5;
+    }
+    .contact-panel {
+      animation: panelIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .back-to-top {
+      @apply fixed bottom-8 right-8 z-[400] flex items-center justify-center w-12 h-12 bg-sonagi-black text-white opacity-0 pointer-events-none translate-y-2 transition-all duration-300 hover:bg-sonagi-purple max-lg:bottom-6 max-lg:right-6;
+    }
+    .back-to-top.is-visible {
+      @apply opacity-100 pointer-events-auto translate-y-0;
+    }
+  }
+  @layer utilities {
+    .scroll-x::-webkit-scrollbar { height: 4px; }
+    .scroll-x::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+    .hero-in {
+      opacity: 0;
+      transform: translateY(28px);
+      animation: heroIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: var(--hero-delay, 0ms);
+    }
+  }
+  @keyframes heroKenBurns {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+  @keyframes heroIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-in {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+    .prod-card, .edu-card, .about-pillar,
+    .btn-primary, .btn-outline, .btn-pill, .portfolio-card img,
+    .side-contact, .back-to-top {
+      transition: none !important;
+    }
+    .portfolio-card:hover img {
+      transform: none !important;
+    }
+    .manifesto-video__media.is-poster {
+      animation: none !important;
+    }
+    .edu-visual__media.is-poster {
+      animation: none !important;
+    }
+    .hero-cinema__video.is-poster {
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body class="bg-white text-[17px] text-sonagi-black font-sans antialiased leading-[1.8]">
+
+<!-- Big hero -->
+<section class="hero-cinema">
+  <div class="hero-cinema__media absolute inset-0">
+    <video class="hero-cinema__video is-poster" autoplay muted loop playsinline poster="assets/hero-visual.png" aria-label="소나기커뮤니케이션 히어로 영상">
+      <source src="assets/hero.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-black/35"></div>
+  </div>
+  <div class="relative z-10 px-6 max-w-[980px]">
+    <p class="hero-in hero-cinema__eyebrow" style="--hero-delay:80ms">We Craft Local Content</p>
+    <h1 class="hero-in hero-cinema__brand" style="--hero-delay:180ms">Sonagi</h1>
+  </div>
+</section>
+
+<div class="grid w-full items-stretch grid-cols-1 lg:grid-cols-[4fr_6fr]">
+
+  <aside class="hidden lg:block border-r border-sonagi-black/10 bg-white">
+    <div class="sticky top-0 flex flex-col min-h-screen pt-14 pr-10 pb-24 pl-page">
+      <div class="text-[40px] font-extrabold tracking-tight leading-[1.1] mb-16">소나기커뮤니케이션</div>
+      <nav class="side-nav flex flex-col gap-0.5">
+        <a href="#about" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">소개</a>
+        <a href="#production" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">콘텐츠 제작</a>
+        <a href="#education" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">콘텐츠 교육</a>
+        <a href="#process" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">제작·교육 진행 흐름</a>
+        <a href="#portfolio" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">대표 제작·교육 사례</a>
+        <a href="#bcpf" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">BCPF 콘텐츠학교</a>
+        <a href="#partners" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">협력 기관 및 파트너</a>
+        <a href="#contact" class="side-link block py-2 pl-4 -ml-4 border-l-2 border-transparent text-[18px] font-medium text-sonagi-muted hover:text-sonagi-black">제작·교육 문의</a>
+      </nav>
+      <div id="side-contact" class="side-contact" aria-hidden="true">
+        <h3 class="side-contact-title">Contact.</h3>
+        <p class="text-[15px] font-semibold leading-[1.65] mb-2">충청남도 아산시 배방읍 희망로46번길 46-11, 3층 301호</p>
+        <p class="text-[14px] text-sonagi-caption leading-[1.65] mb-5">Sonagi Communication, 46-11, Huimang-ro 46beon-gil, Baebang-eup, Asan-si, Chungcheongnam-do, Republic of Korea</p>
+        <p class="text-[15px] font-bold tracking-tight">TEL 041-549-6400</p>
+      </div>
+    </div>
+  </aside>
+
+  <main class="min-w-0 bg-white pt-14 pr-page pb-0 pl-16 max-lg:px-6 max-lg:pt-8">
+
+    <section class="manifesto-block pb-20 -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6">
+      <div class="manifesto-video">
+        <video class="manifesto-video__media is-poster" autoplay muted loop playsinline poster="assets/portfolio-livecommerce.png" aria-label="소나기커뮤니케이션 소개 영상">
+          <source src="assets/hero.mp4" type="video/mp4">
+        </video>
+      </div>
+      <h2 class="manifesto-lead mb-6">
+        지역의 이야기를 콘텐츠로 만들고,<br>
+        교육과 체험으로 연결합니다.
+      </h2>
+      <p class="body-copy max-w-[680px] mb-8">소나기커뮤니케이션은 영상 제작, AI 콘텐츠 교육, 로컬 체험 운영을 통해 지역 자원을 디지털 관광 콘텐츠로 확장하는 콘텐츠 전문 기업입니다.</p>
+      <div class="flex flex-wrap items-center gap-x-10 gap-y-3">
+        <a href="#contact" class="btn-primary">제휴·교육 문의하기</a>
+        <a href="#portfolio" class="btn-outline">제작사례 보기</a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="py-24 sec-head" id="about">
+      <div class="about-layout">
+        <p class="sec-eyebrow about-top-eyebrow">About Sonagi</p>
+        <div class="about-intro-copy">
+          <h2 class="text-[clamp(24px,2.4vw,32px)] font-extrabold tracking-tight mb-5 leading-[1.35]">콘텐츠 제작에서 교육, 체험 운영까지<br>연결하는 로컬 콘텐츠 파트너</h2>
+          <p class="body-copy mb-4">소나기커뮤니케이션은 방송·다큐멘터리 제작 경험과 생성형 AI 기반 콘텐츠 교육 역량을 바탕으로 지역, 기관, 기업의 이야기를 콘텐츠로 설계합니다.</p>
+          <p class="body-copy">단순한 영상 제작에 그치지 않고, 콘텐츠 기획·촬영·편집·교육·체험 운영·홍보까지 연결해 지역 자원이 실제 방문과 참여로 이어질 수 있도록 돕습니다.</p>
+        </div>
+        <div class="about-side-photo">
+          <img src="assets/about-visual.png" alt="지역 콘텐츠 촬영 현장" width="520" height="325" loading="lazy">
+        </div>
+        <div class="about-intro-photo">
+          <img src="assets/section-about.jpg" alt="지역 콘텐츠 제작 현장" width="640" loading="lazy">
+        </div>
+        <div class="about-pillars">
+          <article class="about-pillar">
+            <h3>콘텐츠 제작</h3>
+            <p>공공·기관, 기업, AI, 로컬 관광 콘텐츠 제작</p>
+          </article>
+          <article class="about-pillar">
+            <h3>콘텐츠 교육</h3>
+            <p>AI 영상, 숏폼, 라이브커머스, 영상 제작, 다큐멘터리 교육</p>
+          </article>
+          <article class="about-pillar">
+            <h3>로컬 체험 운영</h3>
+            <p>도고피크닉 등 지역 자원 기반 체험 프로그램 운영</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Production -->
+    <section class="py-24 sec-head" id="production">
+      <p class="sec-eyebrow">Production</p>
+      <h2 class="sec-title">콘텐츠 제작</h2>
+      <p class="sec-desc">공공기관, 기업, 지역, 관광상품의 이야기를 영상과 AI 콘텐츠로 제작합니다. <br>기획부터 촬영, 편집, 홍보 활용까지 목적에 맞는 콘텐츠 제작을 지원합니다.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+        <article class="prod-card">
+          <h3>공공·임팩트 콘텐츠</h3>
+          <p class="body-copy mb-4">지역, 환경, ESG, 사회적 가치, 정책 메시지를 스토리 중심 영상으로 제작합니다. 공공기관과 지자체의 메시지를 시청자가 이해하기 쉬운 영상 언어로 풀어냅니다.</p>
+          <p class="keyword-line"><em>공공기관 홍보</em> · ESG·환경 · 지역 이슈 다큐 · K-빵을 말하다 · 상괭이 콘텐츠</p>
+        </article>
+        <article class="prod-card">
+          <h3>기업·브랜드 홍보영상</h3>
+          <p class="body-copy mb-4">기업과 기관의 브랜드 메시지를 인터뷰, 현장 촬영, 제품 이미지, 스토리텔링을 활용해 신뢰도 있는 홍보영상으로 제작합니다.</p>
+          <p class="keyword-line"><em>기업 홍보영상</em> · 제품 홍보영상 · 인터뷰 콘텐츠 · 쉐어그린 · 널담 · 살사로사</p>
+        </article>
+        <article class="prod-card">
+          <h3>AI 활용 콘텐츠</h3>
+          <p class="body-copy mb-4">생성형 AI를 활용해 제품, 브랜드, 지역 자원을 새로운 방식의 영상 콘텐츠로 제작합니다. AI 이미지, 영상화, 내레이션, 음악, 숏폼 편집을 활용합니다.</p>
+          <p class="keyword-line"><em>AI 제품 영상</em> · AI 애니메이션 · AI 뮤직비디오 · 삶의 순환을 날다 · 가자, 원산도</p>
+        </article>
+        <article class="prod-card">
+          <h3>로컬·관광 콘텐츠</h3>
+          <p class="body-copy mb-4">지역 자원, 관광상품, 축제, 로컬 브랜드를 영상·숏폼·라이브커머스·콘텐츠커머스 형태로 확장합니다. 방문, 판매, 예약으로 이어지는 콘텐츠 흐름을 설계합니다.</p>
+          <p class="keyword-line"><em>관광 홍보영상</em> · 체험 프로그램 콘텐츠 · 라이브커머스 · 로컬달인 · 도고피크닉</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="py-24 sec-head" id="education">
+      <p class="sec-eyebrow">Education</p>
+      <h2 class="sec-title">콘텐츠 교육</h2>
+      <p class="sec-desc">영상 제작, AI 콘텐츠, 숏폼, 라이브커머스, 다큐멘터리, 메이커스페이스 교육을 <br>현장 중심의 실습형 프로그램으로 운영합니다.</p>
+
+      <div class="edu-visual">
+        <video class="edu-visual__media is-poster" autoplay muted loop playsinline poster="assets/section-education.jpg" aria-label="콘텐츠 교육 현장">
+          <source src="assets/education.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+        <article class="edu-card">
+          <h3>AI 영상콘텐츠 제작 교육</h3>
+          <p class="body-copy mb-4">기획, AI 이미지 생성, 영상 제작, 음악·내레이션, 숏폼 편집까지 실습합니다.</p>
+          <p class="keyword-line">AI 이미지 · AI 영상 · 숏폼 결과물</p>
+        </article>
+        <article class="edu-card">
+          <h3>로컬·관광 숏폼 크리에이터 교육</h3>
+          <p class="body-copy mb-4">지역 관광지, 체험상품, 로컬 브랜드를 SNS 숏폼 콘텐츠로 제작합니다.</p>
+          <p class="keyword-line">릴스 · 쇼츠 · 관광 홍보</p>
+        </article>
+        <article class="edu-card">
+          <h3>라이브커머스·콘텐츠커머스 교육</h3>
+          <p class="body-copy mb-4">지역 상품과 브랜드를 판매 가능한 방송·숏폼 콘텐츠로 기획하고 실습합니다.</p>
+          <p class="keyword-line">상품 분석 · 판매 멘트 · 송출 실습</p>
+        </article>
+        <article class="edu-card">
+          <h3>영상 제작 기초 교육</h3>
+          <p class="body-copy mb-4">기획, 촬영, 편집, 자막, 사운드, 결과물 공유까지 영상 제작 기본 흐름을 익힙니다.</p>
+          <p class="keyword-line">스토리보드 · 촬영 · 편집</p>
+        </article>
+        <article class="edu-card">
+          <h3>다큐멘터리·인터뷰 콘텐츠 교육</h3>
+          <p class="body-copy mb-4">사람, 지역, 기관의 이야기를 인터뷰와 다큐멘터리 구조로 풀어내는 교육입니다.</p>
+          <p class="keyword-line">인터뷰 질문 · 현장 기록 · 스토리 구성</p>
+        </article>
+        <article class="edu-card">
+          <h3>메이커스페이스·굿즈 제작 교육</h3>
+          <p class="body-copy mb-4">디지털 장비와 제작 공간을 활용해 굿즈, 전사컵, 체험 결과물을 직접 제작합니다.</p>
+          <p class="keyword-line">전사컵 · 스티커 · 체험 결과물</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="py-24 sec-head" id="process">
+      <p class="sec-eyebrow">Process</p>
+      <h2 class="sec-title">제작·교육 진행 흐름</h2>
+      <p class="sec-desc">소나기커뮤니케이션은 목적에 맞는 기획부터 결과물 활용까지 하나의 흐름으로 설계합니다.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-10 lg:gap-x-8 lg:gap-y-0 pt-6">
+        <article class="process-step">
+          <p class="process-step-num">01</p>
+          <h3>상담</h3>
+          <p>문의·요구사항 확인</p>
+        </article>
+        <article class="process-step">
+          <p class="process-step-num">02</p>
+          <h3>기획</h3>
+          <p>방향·일정·견적 제안</p>
+        </article>
+        <article class="process-step">
+          <p class="process-step-num">03</p>
+          <h3>제작·교육</h3>
+          <p>촬영·편집·실습 진행</p>
+        </article>
+        <article class="process-step">
+          <p class="process-step-num">04</p>
+          <h3>결과물 완성</h3>
+          <p>납품·교육 결과물 전달</p>
+        </article>
+        <article class="process-step">
+          <p class="process-step-num">05</p>
+          <h3>홍보 활용</h3>
+          <p>배포·홍보·연계 컨설팅</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="py-24 sec-head" id="portfolio">
+      <p class="sec-eyebrow">Portfolio</p>
+      <h2 class="sec-title">대표 제작·교육 사례</h2>
+      <p class="sec-desc max-w-none">공공·지역, 기업·브랜드, AI 활용, 교육·체험, 콘텐츠커머스 중심의 <span class="whitespace-nowrap">제작·교육 사례입니다.</span></p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
+        <article class="portfolio-card group">
+          <div class="media-box aspect-[16/10] mb-5">
+            <img src="assets/portfolio-kbread.png" alt="K-빵을 말하다 제작 현장" class="w-full h-full object-cover">
+          </div>
+          <p class="pf-cat">공공·지역 콘텐츠</p>
+          <h3 class="group-hover:underline underline-offset-4 decoration-1">K-빵을 말하다</h3>
+          <p>지역 먹거리와 로컬 브랜드를 연결한 방송형 콘텐츠</p>
+        </article>
+        <article class="portfolio-card group">
+          <div class="media-box aspect-[16/10] mb-5">
+            <img src="assets/portfolio-porpoise.png" alt="상괭이 콘텐츠" class="w-full h-full object-cover">
+          </div>
+          <p class="pf-cat">ESG·임팩트 콘텐츠</p>
+          <h3 class="group-hover:underline underline-offset-4 decoration-1">상괭이 콘텐츠</h3>
+          <p>환경과 생태 메시지를 담은 스토리 중심 콘텐츠</p>
+        </article>
+        <article class="portfolio-card group">
+          <div class="media-box aspect-[16/10] mb-5">
+            <img src="assets/portfolio-ai.png" alt="AI 제품 홍보영상" class="w-full h-full object-cover">
+          </div>
+          <p class="pf-cat">AI 활용 콘텐츠</p>
+          <h3 class="group-hover:underline underline-offset-4 decoration-1">AI 제품 홍보영상</h3>
+          <p>생성형 AI를 활용한 제품·브랜드 홍보 콘텐츠</p>
+        </article>
+        <article class="portfolio-card group">
+          <div class="media-box aspect-[16/10] mb-5">
+            <img src="assets/portfolio-livecommerce.png" alt="로컬달인 라이브커머스" class="w-full h-full object-cover">
+          </div>
+          <p class="pf-cat">콘텐츠커머스</p>
+          <h3 class="group-hover:underline underline-offset-4 decoration-1">로컬달인 라이브커머스</h3>
+          <p>지역 상품을 판매와 홍보로 연결한 라이브커머스 콘텐츠</p>
+        </article>
+        <article class="portfolio-card group">
+          <div class="media-box aspect-[16/10] mb-5">
+            <img src="assets/portfolio-brand.png" alt="쉐어그린 널담 살사로사 홍보영상" class="w-full h-full object-cover">
+          </div>
+          <p class="pf-cat">기업 홍보</p>
+          <h3 class="group-hover:underline underline-offset-4 decoration-1">쉐어그린·널담·살사로사</h3>
+          <p>제품과 브랜드 가치를 전달한 홍보영상 및 AI 콘텐츠</p>
+        </article>
+        <article class="portfolio-card group">
+          <div class="media-box aspect-[16/10] mb-5">
+            <img src="assets/portfolio-dogo.png" alt="도고피크닉 연계 콘텐츠" class="w-full h-full object-cover">
+          </div>
+          <p class="pf-cat">체험·교육 운영</p>
+          <h3 class="group-hover:underline underline-offset-4 decoration-1">도고피크닉 연계 콘텐츠</h3>
+          <p>체험, 촬영, AI 영상 제작을 연결한 로컬 관광 콘텐츠</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- BCPF -->
+    <section class="py-24 bg-sonagi-black text-white -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pr-6" id="bcpf">
+      <p class="sec-eyebrow text-white/40">BCPF Contents School</p>
+      <h2 class="sec-title text-white mb-8">BCPF 콘텐츠학교 운영 경험</h2>
+      <div class="media-box w-full aspect-[21/8] mb-8">
+        <img src="assets/bcpf-visual.png" alt="BCPF 콘텐츠학교 교육 현장" class="w-full h-full object-cover opacity-90">
+      </div>
+      <p class="text-[17px] text-white/70 leading-[1.85] max-w-[680px]">소나기커뮤니케이션은 BCPF 콘텐츠학교 운영 경험을 바탕으로 미디어 교육, AI 콘텐츠 제작, 로컬 체험 프로그램을 현장 중심으로 설계해왔습니다. 이러한 운영 경험을 기반으로 지역 체험관광 상품을 예약·운영·홍보까지 연결하는 플랫폼으로 확장하고자 합니다.</p>
+    </section>
+
+    <!-- Partners -->
+    <section class="py-24 sec-head" id="partners">
+      <p class="sec-eyebrow">Partners</p>
+      <h2 class="sec-title mb-8">협력기관</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/kbs.png" alt="KBS" class="partner-logo partner-logo--lg">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/ebs.svg" alt="EBS" class="partner-logo partner-logo--lg">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/mbc.svg" alt="MBC" class="partner-logo partner-logo--lg">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/tjb.svg" alt="TJB" class="partner-logo partner-logo--lg">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/hanganbu.svg" alt="행정안전부" class="partner-logo partner-logo--lg partner-logo--wide">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/msme.svg" alt="중소벤처기업부" class="partner-logo partner-logo--lg partner-logo--wide">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/moel.svg" alt="고용노동부" class="partner-logo partner-logo--lg partner-logo--wide">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/samsung-display.svg" alt="삼성디스플레이" class="partner-logo partner-logo--lg">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/bcdf.png" alt="방송콘텐츠진흥재단" class="partner-logo--bcdf">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/chungnam.png" alt="충청남도" class="partner-logo partner-logo--lg partner-logo--wide partner-logo--chungnam">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/asan.jpg" alt="아산시" class="partner-logo partner-logo--lg partner-logo--wide">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/kocca.jpg" alt="한국콘텐츠진흥원" class="partner-logo partner-logo--lg partner-logo--wide partner-logo--kocca">
+        </div>
+        <div class="partner-tile partner-tile--logo">
+          <img src="assets/partners/visitkorea.svg" alt="한국관광공사" class="partner-logo partner-logo--lg partner-logo--wide">
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="py-24 pb-28 sec-head -mr-page pr-page max-lg:pr-6" id="contact">
+      <div class="max-w-[900px]">
+        <p class="sec-eyebrow">Contact</p>
+        <h2 class="text-[clamp(28px,3vw,42px)] font-extrabold tracking-tight mb-8">제작·교육 문의</h2>
+
+        <div class="flex gap-8 mb-10 border-b border-sonagi-black/20">
+          <button type="button" class="contact-tab is-active tab" onclick="switchTab(this,'f-produce')">제작 문의</button>
+          <button type="button" class="contact-tab tab" onclick="switchTab(this,'f-edu')">교육 문의</button>
+        </div>
+
+        <div id="f-produce" class="contact-panel">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-7 mb-7">
+            <div>
+              <label class="form-label">이름 / 기관명</label>
+              <input type="text" class="field" placeholder="이름 또는 기관명">
+            </div>
+            <div>
+              <label class="form-label">연락처</label>
+              <input type="text" class="field" placeholder="010-0000-0000">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="form-label">이메일</label>
+              <input type="email" class="field" placeholder="example@email.com">
+            </div>
+          </div>
+          <div class="mb-7">
+            <label class="form-label">문의 분야</label>
+            <select class="field-select">
+              <option value="" disabled selected hidden>선택해 주세요</option>
+              <option>공공·기관 홍보영상</option>
+              <option>기업·브랜드 홍보영상</option>
+              <option>AI 활용 콘텐츠 제작</option>
+              <option>로컬·관광 콘텐츠 제작</option>
+            </select>
+          </div>
+          <div class="mb-7">
+            <label class="form-label">문의 내용</label>
+            <textarea class="field h-32 resize-none" placeholder="프로젝트 또는 제작 목적을 간단히 적어주세요."></textarea>
+          </div>
+          <div class="flex gap-2 text-[15px] text-sonagi-muted mb-8">
+            <input type="checkbox" id="agree-produce" class="mt-1 accent-sonagi-purple">
+            <label for="agree-produce">개인정보처리방침에 동의합니다.</label>
+          </div>
+          <div class="flex justify-center">
+            <button type="button" class="btn-pill">제출</button>
+          </div>
+        </div>
+
+        <div id="f-edu" class="hidden contact-panel">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-7 mb-7">
+            <div>
+              <label class="form-label">이름 / 기관명</label>
+              <input type="text" class="field" placeholder="이름 또는 단체명">
+            </div>
+            <div>
+              <label class="form-label">연락처</label>
+              <input type="text" class="field" placeholder="010-0000-0000">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="form-label">이메일</label>
+              <input type="email" class="field" placeholder="example@email.com">
+            </div>
+          </div>
+          <div class="mb-7">
+            <label class="form-label">교육 희망 분야</label>
+            <select class="field-select">
+              <option value="" disabled selected hidden>선택해 주세요</option>
+              <option>AI 영상콘텐츠 제작 교육</option>
+              <option>로컬·관광 숏폼 교육</option>
+              <option>라이브커머스 교육</option>
+              <option>영상 제작 기초 교육</option>
+              <option>다큐멘터리·인터뷰 콘텐츠 교육</option>
+              <option>메이커스페이스 교육</option>
+            </select>
+          </div>
+          <div class="mb-7">
+            <label class="form-label">문의 내용</label>
+            <textarea class="field h-32 resize-none" placeholder="교육 대상, 인원, 희망 일정 등을 적어주세요."></textarea>
+          </div>
+          <div class="flex gap-2 text-[15px] text-sonagi-muted mb-8">
+            <input type="checkbox" id="agree-edu" class="mt-1 accent-sonagi-purple">
+            <label for="agree-edu">개인정보처리방침에 동의합니다.</label>
+          </div>
+          <div class="flex justify-center">
+            <button type="button" class="btn-pill">제출</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-sonagi-black py-7 px-page text-center max-lg:px-6 -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6">
+      <img src="assets/sonagi_logo_white.png" alt="" class="h-[22px] mx-auto mb-2 opacity-85 block">
+      <p class="text-[13px] text-white/35">© 소나기커뮤니케이션 · 충청남도 아산시 배방읍 희망로46번길 46-11, 3층 301호</p>
+    </footer>
+
+  </main>
+</div>
+
+<button type="button" id="back-to-top" class="back-to-top" aria-label="페이지 최상단으로 이동">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <path d="M9 3.5L3.5 9M9 3.5L14.5 9M9 3.5V14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<script>
+  function switchTab(btn, id) {
+    document.querySelectorAll('.contact-tab').forEach(t => t.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    ['f-produce', 'f-edu'].forEach(formId => {
+      const panel = document.getElementById(formId);
+      const show = formId === id;
+      panel.classList.toggle('hidden', !show);
+      if (show) {
+        panel.classList.remove('contact-panel');
+        void panel.offsetWidth;
+        panel.classList.add('contact-panel');
+      }
+    });
+  }
+
+  const sections = document.querySelectorAll('#about,#production,#education,#process,#portfolio,#bcpf,#partners,#contact');
+  const sideLinks = document.querySelectorAll('.side-link');
+  const sideContact = document.getElementById('side-contact');
+  const backToTop = document.getElementById('back-to-top');
+
+  function setActiveNav(sectionId) {
+    sideLinks.forEach(a => {
+      const on = a.getAttribute('href') === '#' + sectionId;
+      a.classList.toggle('text-sonagi-black', on);
+      a.classList.toggle('text-sonagi-muted', !on);
+      a.classList.toggle('border-sonagi-purple', on);
+      a.classList.toggle('border-transparent', !on);
+    });
+
+    if (sideContact) {
+      const showContact = sectionId === 'contact';
+      sideContact.classList.toggle('is-visible', showContact);
+      sideContact.setAttribute('aria-hidden', showContact ? 'false' : 'true');
+    }
+  }
+
+  function onScroll() {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 120) current = section.id;
+    });
+    if (current) setActiveNav(current);
+
+    if (backToTop) {
+      backToTop.classList.toggle('is-visible', window.scrollY > 500);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  backToTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  (function syncAboutLayoutHeights() {
+    const pillars = document.querySelector('.about-pillars');
+    const introPhoto = document.querySelector('.about-intro-photo');
+    const introPhotoImg = introPhoto?.querySelector('img');
+    const introCopy = document.querySelector('.about-intro-copy');
+    const lastBodyCopy = introCopy?.querySelector('.body-copy:last-of-type');
+    const sidePhoto = document.querySelector('.about-side-photo');
+    const sidePhotoImg = sidePhoto?.querySelector('img');
+    if (!pillars || !introPhoto) return;
+
+    function sync() {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+
+      if (!isDesktop) {
+        introPhoto.style.height = '';
+        if (sidePhoto) sidePhoto.style.height = '';
+        return;
+      }
+
+      introPhoto.style.height = Math.ceil(pillars.getBoundingClientRect().height) + 'px';
+
+      if (sidePhoto && introCopy && lastBodyCopy) {
+        const top = introCopy.getBoundingClientRect().top;
+        const bottom = lastBodyCopy.getBoundingClientRect().bottom;
+        sidePhoto.style.height = Math.ceil(bottom - top) + 'px';
+      }
+    }
+
+    sync();
+    window.addEventListener('resize', sync);
+    window.addEventListener('load', sync);
+    if (window.ResizeObserver) {
+      new ResizeObserver(sync).observe(pillars);
+      if (introCopy) new ResizeObserver(sync).observe(introCopy);
+    }
+    if (document.fonts?.ready) document.fonts.ready.then(sync);
+    [introPhotoImg, sidePhotoImg].forEach((img) => {
+      if (!img) return;
+      if (img.complete) sync();
+      else img.addEventListener('load', sync);
+    });
+  })();
+
+  function setupBackgroundVideo(video) {
+    if (!video) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) {
+      video.removeAttribute('autoplay');
+      video.pause();
+      video.classList.add('is-poster');
+      return;
+    }
+
+    const markPlaying = () => video.classList.remove('is-poster');
+    const markPoster = () => video.classList.add('is-poster');
+
+    video.addEventListener('playing', markPlaying);
+    video.addEventListener('error', markPoster);
+    video.addEventListener('emptied', markPoster);
+
+    if (video.readyState >= 2 && !video.error) {
+      video.play().catch(markPoster);
+    }
+  }
+
+  setupBackgroundVideo(document.querySelector('.hero-cinema__video'));
+  setupBackgroundVideo(document.querySelector('.manifesto-video__media'));
+  setupBackgroundVideo(document.querySelector('.edu-visual__media'));
+</script>
+</body>
+</html>
