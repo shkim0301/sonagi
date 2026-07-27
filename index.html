@@ -24,7 +24,7 @@
           },
         },
         spacing: {
-          page: '200px',
+          page: '160px',
           gnb: '64px',
         },
         borderRadius: {
@@ -92,10 +92,35 @@
       @apply border-sonagi-purple text-sonagi-purple;
     }
     .prod-card {
-      @apply py-2;
+      @apply flex flex-col overflow-hidden bg-white;
+    }
+    .prod-card__visual {
+      @apply relative h-[230px] overflow-hidden bg-black/[0.04];
+    }
+    .prod-card__visual img {
+      @apply w-full h-full object-cover transition-transform duration-500 ease-out;
+    }
+    .prod-card:hover .prod-card__visual img {
+      transform: scale(1.03);
+    }
+    .prod-card__body {
+      @apply flex flex-col flex-1 px-0 pt-5 pb-6;
     }
     .prod-card h3 {
-      @apply text-[20px] font-bold mb-4 pb-4 border-b border-sonagi-black/10;
+      @apply text-[20px] font-bold mb-0 pb-0 border-0;
+    }
+    .prod-card__divider {
+      @apply my-4 border-t border-dotted border-sonagi-black/15;
+    }
+    .prod-card .keyword-line,
+    .prod-card .keyword-line em {
+      @apply not-italic font-normal text-sonagi-black/70;
+    }
+    .prod-card__cta {
+      @apply mt-auto block w-full py-3 text-center text-[14px] font-semibold text-sonagi-black/70 bg-sonagi-black/[0.04] rounded-box transition-colors duration-200 hover:bg-sonagi-purple hover:text-white;
+    }
+    .portfolio-card {
+      scroll-margin-top: 6rem;
     }
     .edu-visual {
       @apply relative w-full overflow-hidden mb-12 media-box;
@@ -215,6 +240,42 @@
     .about-pillar {
       @apply py-5 pl-5 border-l-2 border-sonagi-purple/30;
     }
+    .bcpf-lead {
+      @apply mb-8 max-w-[680px] text-[17px] leading-[1.85] text-white/70;
+    }
+    .bcpf-layout {
+      @apply grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-stretch;
+    }
+    .bcpf-visual {
+      @apply relative overflow-hidden h-[260px] sm:h-[280px] lg:h-[360px];
+    }
+    .bcpf-visual img {
+      @apply absolute inset-0 w-full h-full object-cover object-center opacity-90;
+    }
+    .bcpf-credential {
+      @apply flex flex-col border border-white/20 px-8 py-8 max-lg:px-6 max-lg:py-7 min-w-0 lg:h-[360px] lg:min-w-[260px] lg:px-10 lg:py-8;
+    }
+    .bcpf-stat {
+      @apply text-[clamp(40px,4vw,56px)] font-extrabold leading-none tracking-tight text-white mb-3;
+    }
+    .bcpf-stat-label {
+      @apply text-[13px] leading-[1.65] text-white/45;
+    }
+    .bcpf-credential__spacer {
+      @apply min-h-0 flex-1 max-lg:hidden;
+    }
+    .bcpf-credential__divider {
+      @apply shrink-0 border-t border-white/10 max-lg:hidden;
+    }
+    .bcpf-credential__bottom {
+      @apply shrink-0 max-lg:mt-8 max-lg:border-t max-lg:border-white/10 max-lg:pt-6;
+    }
+    .bcpf-credential__org-label {
+      @apply text-[11px] font-semibold tracking-[0.14em] uppercase text-white/35 mb-3;
+    }
+    .bcpf-credential__logo {
+      @apply block h-[36px] w-auto max-w-[180px] object-contain object-left brightness-0 invert opacity-70;
+    }
     .about-layout {
       @apply grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-x-8 lg:gap-y-5;
     }
@@ -240,7 +301,7 @@
       @apply flex flex-col gap-1 pl-2 lg:col-start-2 lg:row-start-3 lg:self-start;
     }
     .media-box {
-      @apply overflow-hidden bg-black/[0.03] rounded-box;
+      @apply overflow-hidden bg-black/[0.03];
     }
     .portfolio-card img {
       @apply transition-transform duration-500 ease-out;
@@ -348,11 +409,14 @@
       transition: none !important;
     }
     .prod-card, .edu-card, .about-pillar,
-    .btn-primary, .btn-outline, .btn-pill, .portfolio-card img,
+    .btn-primary, .btn-outline, .btn-pill, .portfolio-card img, .prod-card__visual img,
     .side-contact, .back-to-top, .mobile-menu, .mobile-menu-btn__bar {
       transition: none !important;
     }
     .portfolio-card:hover img {
+      transform: none !important;
+    }
+    .prod-card:hover .prod-card__visual img {
       transform: none !important;
     }
     .manifesto-video__media.is-poster {
@@ -436,9 +500,9 @@
     </div>
   </aside>
 
-  <main class="min-w-0 bg-white pt-14 pr-page pb-0 pl-16 max-lg:pl-6 max-lg:pr-6 max-lg:pt-6 max-lg:pb-0">
+  <main class="min-w-0 bg-white pt-14 pr-page pb-0 pl-page max-lg:pl-6 max-lg:pr-6 max-lg:pt-6 max-lg:pb-0">
 
-    <section class="manifesto-block pb-20 -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pb-14">
+    <section class="manifesto-block pb-20 -ml-page pl-page -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pb-14">
       <div class="manifesto-video">
         <video class="manifesto-video__media is-poster" autoplay muted loop playsinline poster="assets/portfolio-livecommerce.png" aria-label="소나기커뮤니케이션 소개 영상">
           <source src="assets/hero.mp4" type="video/mp4">
@@ -493,26 +557,54 @@
       <h2 class="sec-title">콘텐츠 제작</h2>
       <p class="sec-desc">공공기관, 기업, 지역, 관광상품의 이야기를 영상과 AI 콘텐츠로 제작합니다. <br>기획부터 촬영, 편집, 홍보 활용까지 목적에 맞는 콘텐츠 제작을 지원합니다.</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
-        <article class="prod-card">
-          <h3>공공·임팩트 콘텐츠</h3>
-          <p class="body-copy mb-4">지역, 환경, ESG, 사회적 가치, 정책 메시지를 스토리 중심 영상으로 제작합니다. 공공기관과 지자체의 메시지를 시청자가 이해하기 쉬운 영상 언어로 풀어냅니다.</p>
-          <p class="keyword-line"><em>공공기관 홍보</em> · ESG·환경 · 지역 이슈 다큐 · K-빵을 말하다 · 상괭이 콘텐츠</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+        <article class="prod-card group">
+          <div class="prod-card__visual">
+            <img src="assets/prod-public-impact.png" alt="공공·임팩트 콘텐츠 제작 현장" loading="lazy">
+          </div>
+          <div class="prod-card__body">
+            <h3>공공·임팩트 콘텐츠</h3>
+            <div class="prod-card__divider" aria-hidden="true"></div>
+            <p class="body-copy mb-4">지역, 환경, ESG, 사회적 가치, 정책 메시지를 스토리 중심 영상으로 제작합니다. 공공기관과 지자체의 메시지를 시청자가 이해하기 쉬운 영상 언어로 풀어냅니다.</p>
+            <p class="keyword-line mb-5">공공기관 홍보 · ESG·환경 · 지역 이슈 다큐</p>
+            <a href="#portfolio" class="prod-card__cta">K-빵을 말하다 · 상괭이 콘텐츠</a>
+          </div>
         </article>
-        <article class="prod-card">
-          <h3>기업·브랜드 홍보영상</h3>
-          <p class="body-copy mb-4">기업과 기관의 브랜드 메시지를 인터뷰, 현장 촬영, 제품 이미지, 스토리텔링을 활용해 신뢰도 있는 홍보영상으로 제작합니다.</p>
-          <p class="keyword-line"><em>기업 홍보영상</em> · 제품 홍보영상 · 인터뷰 콘텐츠 · 쉐어그린 · 널담 · 살사로사</p>
+        <article class="prod-card group">
+          <div class="prod-card__visual">
+            <img src="assets/prod-brand.png" alt="기업·브랜드 홍보영상 제작" loading="lazy">
+          </div>
+          <div class="prod-card__body">
+            <h3>기업·브랜드 홍보영상</h3>
+            <div class="prod-card__divider" aria-hidden="true"></div>
+            <p class="body-copy mb-4">기업과 기관의 브랜드 메시지를 인터뷰, 현장 촬영, 제품 이미지, 스토리텔링을 활용해 신뢰도 있는 홍보영상으로 제작합니다.</p>
+            <p class="keyword-line mb-5">기업 홍보영상 · 제품 홍보영상 · 인터뷰 콘텐츠</p>
+            <a href="#pf-brand" class="prod-card__cta">쉐어그린 · 널담 · 살사로사</a>
+          </div>
         </article>
-        <article class="prod-card">
-          <h3>AI 활용 콘텐츠</h3>
-          <p class="body-copy mb-4">생성형 AI를 활용해 제품, 브랜드, 지역 자원을 새로운 방식의 영상 콘텐츠로 제작합니다. AI 이미지, 영상화, 내레이션, 음악, 숏폼 편집을 활용합니다.</p>
-          <p class="keyword-line"><em>AI 제품 영상</em> · AI 애니메이션 · AI 뮤직비디오 · 삶의 순환을 날다 · 가자, 원산도</p>
+        <article class="prod-card group">
+          <div class="prod-card__visual">
+            <img src="assets/prod-ai.png" alt="AI 활용 콘텐츠 제작" loading="lazy">
+          </div>
+          <div class="prod-card__body">
+            <h3>AI 활용 콘텐츠</h3>
+            <div class="prod-card__divider" aria-hidden="true"></div>
+            <p class="body-copy mb-4">생성형 AI를 활용해 제품, 브랜드, 지역 자원을 새로운 방식의 영상 콘텐츠로 제작합니다. AI 이미지, 영상화, 내레이션, 음악, 숏폼 편집을 활용합니다.</p>
+            <p class="keyword-line mb-5">AI 제품 영상 · AI 애니메이션 · AI 뮤직비디오</p>
+            <a href="#pf-ai" class="prod-card__cta">삶의 순환을 날다 · 가자, 원산도</a>
+          </div>
         </article>
-        <article class="prod-card">
-          <h3>로컬·관광 콘텐츠</h3>
-          <p class="body-copy mb-4">지역 자원, 관광상품, 축제, 로컬 브랜드를 영상·숏폼·라이브커머스·콘텐츠커머스 형태로 확장합니다. 방문, 판매, 예약으로 이어지는 콘텐츠 흐름을 설계합니다.</p>
-          <p class="keyword-line"><em>관광 홍보영상</em> · 체험 프로그램 콘텐츠 · 라이브커머스 · 로컬달인 · 도고피크닉</p>
+        <article class="prod-card group">
+          <div class="prod-card__visual">
+            <img src="assets/prod-local.png" alt="로컬·관광 콘텐츠 제작" loading="lazy">
+          </div>
+          <div class="prod-card__body">
+            <h3>로컬·관광 콘텐츠</h3>
+            <div class="prod-card__divider" aria-hidden="true"></div>
+            <p class="body-copy mb-4">지역 자원, 관광상품, 축제, 로컬 브랜드를 영상·숏폼·라이브커머스·콘텐츠커머스 형태로 확장합니다. 방문, 판매, 예약으로 이어지는 콘텐츠 흐름을 설계합니다.</p>
+            <p class="keyword-line mb-5">관광 홍보영상 · 체험 프로그램 콘텐츠 · 라이브커머스</p>
+            <a href="#portfolio" class="prod-card__cta">로컬달인 · 도고피크닉</a>
+          </div>
         </article>
       </div>
     </section>
@@ -604,7 +696,7 @@
       <p class="sec-desc max-w-none">공공·지역, 기업·브랜드, AI 활용, 교육·체험, 콘텐츠커머스 중심의 <span class="whitespace-nowrap">제작·교육 사례입니다.</span></p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
-        <article class="portfolio-card group">
+        <article class="portfolio-card group" id="pf-kbread">
           <div class="media-box aspect-[16/10] mb-5">
             <img src="assets/portfolio-kbread.png" alt="K-빵을 말하다 제작 현장" class="w-full h-full object-cover">
           </div>
@@ -612,7 +704,7 @@
           <h3 class="group-hover:underline underline-offset-4 decoration-1">K-빵을 말하다</h3>
           <p>지역 먹거리와 로컬 브랜드를 연결한 방송형 콘텐츠</p>
         </article>
-        <article class="portfolio-card group">
+        <article class="portfolio-card group" id="pf-porpoise">
           <div class="media-box aspect-[16/10] mb-5">
             <img src="assets/portfolio-porpoise.png" alt="상괭이 콘텐츠" class="w-full h-full object-cover">
           </div>
@@ -620,7 +712,7 @@
           <h3 class="group-hover:underline underline-offset-4 decoration-1">상괭이 콘텐츠</h3>
           <p>환경과 생태 메시지를 담은 스토리 중심 콘텐츠</p>
         </article>
-        <article class="portfolio-card group">
+        <article class="portfolio-card group" id="pf-ai">
           <div class="media-box aspect-[16/10] mb-5">
             <img src="assets/portfolio-ai.png" alt="AI 제품 홍보영상" class="w-full h-full object-cover">
           </div>
@@ -628,7 +720,7 @@
           <h3 class="group-hover:underline underline-offset-4 decoration-1">AI 제품 홍보영상</h3>
           <p>생성형 AI를 활용한 제품·브랜드 홍보 콘텐츠</p>
         </article>
-        <article class="portfolio-card group">
+        <article class="portfolio-card group" id="pf-livecommerce">
           <div class="media-box aspect-[16/10] mb-5">
             <img src="assets/portfolio-livecommerce.png" alt="로컬달인 라이브커머스" class="w-full h-full object-cover">
           </div>
@@ -636,7 +728,7 @@
           <h3 class="group-hover:underline underline-offset-4 decoration-1">로컬달인 라이브커머스</h3>
           <p>지역 상품을 판매와 홍보로 연결한 라이브커머스 콘텐츠</p>
         </article>
-        <article class="portfolio-card group">
+        <article class="portfolio-card group" id="pf-brand">
           <div class="media-box aspect-[16/10] mb-5">
             <img src="assets/portfolio-brand.png" alt="쉐어그린 널담 살사로사 홍보영상" class="w-full h-full object-cover">
           </div>
@@ -644,7 +736,7 @@
           <h3 class="group-hover:underline underline-offset-4 decoration-1">쉐어그린·널담·살사로사</h3>
           <p>제품과 브랜드 가치를 전달한 홍보영상 및 AI 콘텐츠</p>
         </article>
-        <article class="portfolio-card group">
+        <article class="portfolio-card group" id="pf-dogo">
           <div class="media-box aspect-[16/10] mb-5">
             <img src="assets/portfolio-dogo.png" alt="도고피크닉 연계 콘텐츠" class="w-full h-full object-cover">
           </div>
@@ -656,13 +748,29 @@
     </section>
 
     <!-- BCPF -->
-    <section class="py-24 max-lg:py-16 bg-sonagi-black text-white -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pr-6" id="bcpf">
-      <p class="sec-eyebrow text-white/40">BCPF Contents School</p>
-      <h2 class="sec-title text-white mb-8">BCPF 콘텐츠학교 운영 경험</h2>
-      <div class="media-box w-full aspect-[21/8] max-lg:aspect-[16/9] mb-8">
-        <img src="assets/bcpf-visual.png" alt="BCPF 콘텐츠학교 교육 현장" class="w-full h-full object-cover opacity-90">
+    <section class="py-24 max-lg:py-16 bg-sonagi-black text-white -ml-page pl-page -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pr-6" id="bcpf">
+      <p class="sec-eyebrow text-white/40">Education Capability</p>
+      <h2 class="sec-title text-white mb-5">BCPF 콘텐츠학교 운영 경험</h2>
+      <p class="bcpf-lead">소나기커뮤니케이션은 BCPF 콘텐츠학교 운영 경험을 바탕으로 미디어 교육, AI 콘텐츠 제작, 로컬 체험 프로그램을 현장 중심으로 설계해왔습니다. 이러한 운영 경험을 기반으로 지역 체험관광 상품을 예약·운영·홍보까지 연결하는 플랫폼으로 확장하고자 합니다.</p>
+
+      <div class="bcpf-layout">
+        <div class="bcpf-visual media-box">
+          <img src="assets/bcpf-visual.png" alt="BCPF 콘텐츠학교 교육 운영 현장" loading="lazy">
+        </div>
+        <div class="bcpf-credential">
+          <div>
+            <p class="bcpf-stat">14년+</p>
+            <p class="bcpf-stat-label">BCPF 콘텐츠학교<br>위탁운영 노하우</p>
+          </div>
+          <div class="bcpf-credential__spacer" aria-hidden="true"></div>
+          <div class="bcpf-credential__divider" aria-hidden="true"></div>
+          <div class="bcpf-credential__spacer" aria-hidden="true"></div>
+          <div class="bcpf-credential__bottom">
+            <p class="bcpf-credential__org-label">위탁기관</p>
+            <img src="assets/partners/bcdf.png" alt="방송콘텐츠진흥재단" class="bcpf-credential__logo" width="160" height="36" loading="lazy">
+          </div>
+        </div>
       </div>
-      <p class="text-[17px] text-white/70 leading-[1.85] max-w-[680px]">소나기커뮤니케이션은 BCPF 콘텐츠학교 운영 경험을 바탕으로 미디어 교육, AI 콘텐츠 제작, 로컬 체험 프로그램을 현장 중심으로 설계해왔습니다. 이러한 운영 경험을 기반으로 지역 체험관광 상품을 예약·운영·홍보까지 연결하는 플랫폼으로 확장하고자 합니다.</p>
     </section>
 
     <!-- Partners -->
@@ -803,7 +911,7 @@
       </div>
     </section>
 
-    <footer class="bg-sonagi-black py-7 px-page text-center -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6">
+    <footer class="bg-sonagi-black py-7 px-page text-center -ml-page pl-page -mr-page pr-page max-lg:-mx-6 max-lg:px-6">
       <img src="assets/sonagi_logo_white.png" alt="" class="h-[22px] mx-auto mb-2 opacity-85 block">
       <p class="text-[13px] text-white/35">© 소나기커뮤니케이션 · 충청남도 아산시 배방읍 희망로46번길 46-11, 3층 301호</p>
     </footer>
@@ -866,6 +974,10 @@
   });
 
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  document.querySelectorAll('a[href^="#pf-"], .prod-card__cta').forEach(link => {
     link.addEventListener('click', closeMobileMenu);
   });
 
