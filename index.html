@@ -40,7 +40,7 @@
       @apply text-[12px] font-semibold tracking-[0.2em] uppercase text-sonagi-muted mb-3;
     }
     .sec-head {
-      @apply border-t border-sonagi-black/10 pt-16;
+      @apply border-t border-sonagi-black/10 pt-16 max-lg:pt-10;
     }
     .sec-title {
       @apply text-[clamp(28px,2.8vw,40px)] font-extrabold tracking-tight mb-5;
@@ -150,7 +150,7 @@
       @apply text-[16px] text-sonagi-caption leading-[1.85];
     }
     .hero-cinema {
-      @apply relative overflow-hidden w-full min-h-[82vh] max-h-[860px] flex items-center justify-center text-center mb-[90px];
+      @apply relative overflow-hidden w-full min-h-[82vh] max-h-[860px] max-lg:min-h-[68vh] max-lg:max-h-none flex items-center justify-center text-center mb-[90px] max-lg:mb-12;
     }
     .hero-cinema__video {
       @apply w-full h-full object-cover;
@@ -166,8 +166,13 @@
       @apply text-[clamp(44px,9vw,112px)] font-extrabold uppercase text-white leading-[0.95] tracking-[0.06em];
     }
     .manifesto-video {
-      @apply relative w-full overflow-hidden mb-12;
+      @apply relative w-full overflow-hidden mb-12 max-lg:mb-8;
       height: min(42vh, 460px);
+    }
+    @media (max-width: 1023px) {
+      .manifesto-video {
+        height: min(36vh, 280px);
+      }
     }
     .manifesto-video__media {
       @apply absolute inset-0 w-full h-full object-cover;
@@ -268,6 +273,51 @@
     .back-to-top.is-visible {
       @apply opacity-100 pointer-events-auto translate-y-0;
     }
+    .mobile-header {
+      @apply fixed top-0 inset-x-0 z-[500] flex items-center justify-between h-14 px-6 bg-white/95 backdrop-blur-sm border-b border-sonagi-black/10;
+    }
+    .mobile-header__brand {
+      @apply text-[15px] font-extrabold tracking-tight text-sonagi-black truncate pr-4;
+    }
+    .mobile-menu-btn {
+      @apply relative flex items-center justify-center w-10 h-10 -mr-1 text-sonagi-black transition-colors hover:text-sonagi-purple;
+    }
+    .mobile-menu-btn__bar {
+      @apply absolute block w-[22px] h-[1.5px] bg-current transition-all duration-300 ease-out;
+    }
+    .mobile-menu-btn__bar:nth-child(1) { transform: translateY(-6px); }
+    .mobile-menu-btn__bar:nth-child(2) { transform: translateY(0); }
+    .mobile-menu-btn__bar:nth-child(3) { transform: translateY(6px); }
+    .mobile-menu-btn.is-open .mobile-menu-btn__bar:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    .mobile-menu-btn.is-open .mobile-menu-btn__bar:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-btn.is-open .mobile-menu-btn__bar:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+    .mobile-menu {
+      @apply fixed inset-0 z-[490] bg-white opacity-0 pointer-events-none transition-opacity duration-300 ease-out;
+    }
+    .mobile-menu.is-open {
+      @apply opacity-100 pointer-events-auto;
+    }
+    .mobile-menu__panel {
+      @apply flex flex-col h-full pt-[72px] px-6 pb-8 overflow-y-auto;
+    }
+    .mobile-nav-link {
+      @apply block py-3.5 text-[18px] font-medium text-sonagi-muted border-b border-sonagi-black/5 transition-colors hover:text-sonagi-black;
+    }
+    .mobile-nav-link.is-active {
+      @apply text-sonagi-black font-semibold;
+    }
+    .mobile-menu__contact {
+      @apply mt-auto pt-8 border-t border-sonagi-black/10;
+    }
+    body.is-menu-open {
+      overflow: hidden;
+    }
   }
   @layer utilities {
     .scroll-x::-webkit-scrollbar { height: 4px; }
@@ -299,7 +349,7 @@
     }
     .prod-card, .edu-card, .about-pillar,
     .btn-primary, .btn-outline, .btn-pill, .portfolio-card img,
-    .side-contact, .back-to-top {
+    .side-contact, .back-to-top, .mobile-menu, .mobile-menu-btn__bar {
       transition: none !important;
     }
     .portfolio-card:hover img {
@@ -318,6 +368,35 @@
 </style>
 </head>
 <body class="bg-white text-[17px] text-sonagi-black font-sans antialiased leading-[1.8]">
+
+<header class="mobile-header lg:hidden" aria-label="모바일 내비게이션">
+  <a href="#" class="mobile-header__brand" id="mobile-header-brand">소나기커뮤니케이션</a>
+  <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" aria-label="메뉴 열기">
+    <span class="mobile-menu-btn__bar" aria-hidden="true"></span>
+    <span class="mobile-menu-btn__bar" aria-hidden="true"></span>
+    <span class="mobile-menu-btn__bar" aria-hidden="true"></span>
+  </button>
+</header>
+
+<div class="mobile-menu lg:hidden" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu__panel">
+    <nav class="flex flex-col" aria-label="섹션 이동">
+      <a href="#about" class="mobile-nav-link">소개</a>
+      <a href="#production" class="mobile-nav-link">콘텐츠 제작</a>
+      <a href="#education" class="mobile-nav-link">콘텐츠 교육</a>
+      <a href="#process" class="mobile-nav-link">제작·교육 진행 흐름</a>
+      <a href="#portfolio" class="mobile-nav-link">대표 제작·교육 사례</a>
+      <a href="#bcpf" class="mobile-nav-link">BCPF 콘텐츠학교</a>
+      <a href="#partners" class="mobile-nav-link">협력 기관 및 파트너</a>
+      <a href="#contact" class="mobile-nav-link">제작·교육 문의</a>
+    </nav>
+    <div class="mobile-menu__contact">
+      <p class="text-[13px] font-semibold tracking-wide text-sonagi-muted mb-2">Contact</p>
+      <p class="text-[14px] text-sonagi-caption leading-[1.65] mb-3">충청남도 아산시 배방읍 희망로46번길 46-11, 3층 301호</p>
+      <a href="tel:0415496400" class="text-[15px] font-bold tracking-tight text-sonagi-black hover:text-sonagi-purple transition-colors">TEL 041-549-6400</a>
+    </div>
+  </div>
+</div>
 
 <!-- Big hero -->
 <section class="hero-cinema">
@@ -357,9 +436,9 @@
     </div>
   </aside>
 
-  <main class="min-w-0 bg-white pt-14 pr-page pb-0 pl-16 max-lg:px-6 max-lg:pt-8">
+  <main class="min-w-0 bg-white pt-14 pr-page pb-0 pl-16 max-lg:pl-6 max-lg:pr-6 max-lg:pt-6 max-lg:pb-0">
 
-    <section class="manifesto-block pb-20 -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6">
+    <section class="manifesto-block pb-20 -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pb-14">
       <div class="manifesto-video">
         <video class="manifesto-video__media is-poster" autoplay muted loop playsinline poster="assets/portfolio-livecommerce.png" aria-label="소나기커뮤니케이션 소개 영상">
           <source src="assets/hero.mp4" type="video/mp4">
@@ -377,7 +456,7 @@
     </section>
 
     <!-- About -->
-    <section class="py-24 sec-head" id="about">
+    <section class="py-24 max-lg:py-16 sec-head" id="about">
       <div class="about-layout">
         <p class="sec-eyebrow about-top-eyebrow">About Sonagi</p>
         <div class="about-intro-copy">
@@ -409,7 +488,7 @@
     </section>
 
     <!-- Production -->
-    <section class="py-24 sec-head" id="production">
+    <section class="py-24 max-lg:py-16 sec-head" id="production">
       <p class="sec-eyebrow">Production</p>
       <h2 class="sec-title">콘텐츠 제작</h2>
       <p class="sec-desc">공공기관, 기업, 지역, 관광상품의 이야기를 영상과 AI 콘텐츠로 제작합니다. <br>기획부터 촬영, 편집, 홍보 활용까지 목적에 맞는 콘텐츠 제작을 지원합니다.</p>
@@ -439,7 +518,7 @@
     </section>
 
     <!-- Education -->
-    <section class="py-24 sec-head" id="education">
+    <section class="py-24 max-lg:py-16 sec-head" id="education">
       <p class="sec-eyebrow">Education</p>
       <h2 class="sec-title">콘텐츠 교육</h2>
       <p class="sec-desc">영상 제작, AI 콘텐츠, 숏폼, 라이브커머스, 다큐멘터리, 메이커스페이스 교육을 <br>현장 중심의 실습형 프로그램으로 운영합니다.</p>
@@ -485,7 +564,7 @@
     </section>
 
     <!-- Process -->
-    <section class="py-24 sec-head" id="process">
+    <section class="py-24 max-lg:py-16 sec-head" id="process">
       <p class="sec-eyebrow">Process</p>
       <h2 class="sec-title">제작·교육 진행 흐름</h2>
       <p class="sec-desc">소나기커뮤니케이션은 목적에 맞는 기획부터 결과물 활용까지 하나의 흐름으로 설계합니다.</p>
@@ -519,7 +598,7 @@
     </section>
 
     <!-- Portfolio -->
-    <section class="py-24 sec-head" id="portfolio">
+    <section class="py-24 max-lg:py-16 sec-head" id="portfolio">
       <p class="sec-eyebrow">Portfolio</p>
       <h2 class="sec-title">대표 제작·교육 사례</h2>
       <p class="sec-desc max-w-none">공공·지역, 기업·브랜드, AI 활용, 교육·체험, 콘텐츠커머스 중심의 <span class="whitespace-nowrap">제작·교육 사례입니다.</span></p>
@@ -577,17 +656,17 @@
     </section>
 
     <!-- BCPF -->
-    <section class="py-24 bg-sonagi-black text-white -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pr-6" id="bcpf">
+    <section class="py-24 max-lg:py-16 bg-sonagi-black text-white -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6 max-lg:pl-6 max-lg:pr-6" id="bcpf">
       <p class="sec-eyebrow text-white/40">BCPF Contents School</p>
       <h2 class="sec-title text-white mb-8">BCPF 콘텐츠학교 운영 경험</h2>
-      <div class="media-box w-full aspect-[21/8] mb-8">
+      <div class="media-box w-full aspect-[21/8] max-lg:aspect-[16/9] mb-8">
         <img src="assets/bcpf-visual.png" alt="BCPF 콘텐츠학교 교육 현장" class="w-full h-full object-cover opacity-90">
       </div>
       <p class="text-[17px] text-white/70 leading-[1.85] max-w-[680px]">소나기커뮤니케이션은 BCPF 콘텐츠학교 운영 경험을 바탕으로 미디어 교육, AI 콘텐츠 제작, 로컬 체험 프로그램을 현장 중심으로 설계해왔습니다. 이러한 운영 경험을 기반으로 지역 체험관광 상품을 예약·운영·홍보까지 연결하는 플랫폼으로 확장하고자 합니다.</p>
     </section>
 
     <!-- Partners -->
-    <section class="py-24 sec-head" id="partners">
+    <section class="py-24 max-lg:py-16 sec-head" id="partners">
       <p class="sec-eyebrow">Partners</p>
       <h2 class="sec-title mb-8">협력기관 및 파트너</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
@@ -634,7 +713,7 @@
     </section>
 
     <!-- Contact -->
-    <section class="py-24 pb-28 sec-head -mr-page pr-page max-lg:pr-6" id="contact">
+    <section class="py-24 max-lg:py-16 pb-28 max-lg:pb-20 sec-head -mr-page pr-page max-lg:-mr-6 max-lg:pr-6" id="contact">
       <div class="max-w-[900px]">
         <p class="sec-eyebrow">Contact</p>
         <h2 class="text-[clamp(28px,3vw,42px)] font-extrabold tracking-tight mb-8">제작·교육 문의</h2>
@@ -724,7 +803,7 @@
       </div>
     </section>
 
-    <footer class="bg-sonagi-black py-7 px-page text-center max-lg:px-6 -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6">
+    <footer class="bg-sonagi-black py-7 px-page text-center -ml-16 pl-16 -mr-page pr-page max-lg:-mx-6 max-lg:px-6">
       <img src="assets/sonagi_logo_white.png" alt="" class="h-[22px] mx-auto mb-2 opacity-85 block">
       <p class="text-[13px] text-white/35">© 소나기커뮤니케이션 · 충청남도 아산시 배방읍 희망로46번길 46-11, 3층 301호</p>
     </footer>
@@ -755,17 +834,61 @@
   }
 
   const sections = document.querySelectorAll('#about,#production,#education,#process,#portfolio,#bcpf,#partners,#contact');
-  const sideLinks = document.querySelectorAll('.side-link');
+  const navLinks = document.querySelectorAll('.side-link, .mobile-nav-link');
   const sideContact = document.getElementById('side-contact');
   const backToTop = document.getElementById('back-to-top');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileHeaderBrand = document.getElementById('mobile-header-brand');
+
+  function setMobileMenuOpen(open) {
+    if (!mobileMenu || !mobileMenuBtn) return;
+    mobileMenu.classList.toggle('is-open', open);
+    mobileMenuBtn.classList.toggle('is-open', open);
+    mobileMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    mobileMenuBtn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+    mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.classList.toggle('is-menu-open', open);
+  }
+
+  function closeMobileMenu() {
+    setMobileMenuOpen(false);
+  }
+
+  mobileMenuBtn?.addEventListener('click', () => {
+    setMobileMenuOpen(!mobileMenu?.classList.contains('is-open'));
+  });
+
+  mobileHeaderBrand?.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeMobileMenu();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMobileMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 1024px)').matches) closeMobileMenu();
+  });
 
   function setActiveNav(sectionId) {
-    sideLinks.forEach(a => {
+    navLinks.forEach(a => {
       const on = a.getAttribute('href') === '#' + sectionId;
-      a.classList.toggle('text-sonagi-black', on);
-      a.classList.toggle('text-sonagi-muted', !on);
-      a.classList.toggle('border-sonagi-purple', on);
-      a.classList.toggle('border-transparent', !on);
+      if (a.classList.contains('side-link')) {
+        a.classList.toggle('text-sonagi-black', on);
+        a.classList.toggle('text-sonagi-muted', !on);
+        a.classList.toggle('border-sonagi-purple', on);
+        a.classList.toggle('border-transparent', !on);
+      }
+      if (a.classList.contains('mobile-nav-link')) {
+        a.classList.toggle('is-active', on);
+      }
     });
 
     if (sideContact) {
@@ -778,7 +901,8 @@
   function onScroll() {
     let current = '';
     sections.forEach(section => {
-      if (window.scrollY >= section.offsetTop - 120) current = section.id;
+      const offset = window.matchMedia('(max-width: 1023px)').matches ? 80 : 120;
+      if (window.scrollY >= section.offsetTop - offset) current = section.id;
     });
     if (current) setActiveNav(current);
 
